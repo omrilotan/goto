@@ -1,0 +1,2 @@
+# goto
+Redirect using Javascript

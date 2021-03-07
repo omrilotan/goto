@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+		<title>Loading...</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+		<meta http-equiv="Cache-Control" content="no-cache"/>
+		<meta name="googlebot" content="noindex" />
+		<meta name="robots" content="noindex" />
+		<style>
+* {
+	margin: 0;
+	padding: 0;
+}
+html ,body {
+	height: 100%;
+}
+body {
+	font: 100 100%/1.4 -apple-system, "BlinkMacSystemFont", "Helvetica Neue", "Helvetica", "Lucida Grande", "Arial", sans-serif;
+	display: flex;
+	justify-content :center;
+	align-items :center;
+}
+@keyframes ddd{
+	0%  { content: ''; }
+	25% { content: '.'; }
+	50% { content: '..'; }
+	75% { content: '...'; }
+}
+.state:after {
+	content: '';
+	display: inline-block;
+	width: 2em;
+	animation: ddd 1.5s infinite;
+}
+		</style>
+	</head>
+	<body>
+		<span id="state" class="state">Loading</span>
+		<script>
+(function () {
+	function empty() {
+		document.title = ' ';
+		state.outerHTML = ' ';
+	}
+
+	if (/bot/.test(navigator.userAgent)) {
+		empty();
+		return;
+	}
+
+	var params = location.search.replace(/^\?/, '').split('&').reduce(
+		function (accumulator, entry) {
+			var pair = entry.split('=');
+			accumulator[pair[0]] = pair[1];
+			return accumulator;
+		},
+		{}
+	);
+
+	if (params.url) {
+		var target = /^https?:\/\//.test(params.url)
+			? params.url
+			: 'https://' + params.url
+		;
+
+		window.location.replace(target);
+	} else {
+		empty();
+	}
+})();
+		</script>
+	</body>
+</html>
