@@ -16,11 +16,21 @@
 html ,body {
 	height: 100%;
 }
-body {
+body, input, button {
 	font: 100 100%/1.4 -apple-system, "BlinkMacSystemFont", "Helvetica Neue", "Helvetica", "Lucida Grande", "Arial", sans-serif;
 	display: flex;
 	justify-content :center;
 	align-items :center;
+	white-space: pre-line;
+}
+input, button {
+	box-sizing: border-box;
+	padding: 1px 5px;
+	width: 100%;
+}
+a {
+	display: block;
+  text-align: center;
 }
 @keyframes ddd{
 	0%  { content: ''; }
@@ -40,9 +50,9 @@ body {
 		<span id="state" class="state">Loading</span>
 		<script>
 (function () {
-	function empty() {
-		document.title = ' ';
-		state.outerHTML = ' ';
+	function empty(title = ' ', content = ' ') {
+		document.title = title;
+		state.outerHTML = content;
 	}
 
 	if (/bot/.test(navigator.userAgent)) {
@@ -67,8 +77,27 @@ body {
 
 		window.location.replace(target);
 	} else {
-		empty();
+		empty('goto', [
+			'<form>',
+			'This site is a client based redirect page, to avoid preview images',
+			'',
+			'<input name="url" type="text" placeholder="w3.org">',
+			'<button>Create URL</button>',
+			'<a id="result"></a>',
+			'</form>',
+		].join('\n'));
 	}
+
+	window.addEventListener(
+		'submit',
+		function (event) {
+			event.preventDefault();
+			var url = 'https://goto.omrilotan.com?url=' + event.target.url.value;
+			window.result.innerHTML = '';
+			window.result.setAttribute('href', url);
+			window.result.appendChild(document.createTextNode(url));
+		}
+	);
 })();
 		</script>
 	</body>
